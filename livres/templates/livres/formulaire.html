@@ -1,0 +1,52 @@
+<style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #f9f9f9; }
+    .form-container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h2 { color: #2c3e50; margin-top: 0; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+
+
+    p { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+
+    /* Style des champs de saisie */
+    input[type="text"], input[type="number"], select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52,152,219,0.3); }
+
+    /* Bouton Enregistrer */
+    .btn-submit {
+        background: #3498db; color: white; border: none; padding: 12px 20px;
+        border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; font-weight: bold;
+        transition: background 0.3s;
+    }
+    .btn-submit:hover { background: #2980b9; }
+
+    /* Bouton Annuler */
+    .btn-cancel {
+        display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; font-size: 14px;
+    }
+    .btn-cancel:hover { text-decoration: underline; }
+</style>
+
+<div class="form-container">
+    <h2>{{ titre }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-submit">Enregistrer</button>
+    </form>
+
+    <a href="{% url 'liste_livres' %}" class="btn-cancel">Annuler</a>
+</div>

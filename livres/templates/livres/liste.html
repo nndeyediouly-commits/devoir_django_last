@@ -1,0 +1,85 @@
+<h1>Ma Bibliothèque</h1>
+
+<div style="background: #f4f4f4; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+    <p><strong>Livres disponibles :</strong> {{ livres_disponibles }}</p>
+
+    <p><strong>Auteur le plus productif :</strong>
+        {% if top_auteur %}
+            {{ top_auteur.auteur }} ({{ top_auteur.total }} livres)
+        {% else %}
+            Aucune donnée
+        {% endif %}
+    </p>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'ajouter_livre' %}" style="background-color: #28a745; color: white; padding: 10px; text-decoration: none; border-radius: 5px;">
+        + Ajouter un Livre
+    </a>
+</div>
+
+<table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+    <thead>
+        <tr style="background-color: #eee;">
+            <th style="padding: 8px;">Titre</th>
+            <th style="padding: 8px;">Auteur</th>
+            <th style="padding: 8px;">ISBN</th>
+            <th style="padding: 8px;">Actions</th>
+        </tr>
+    </thead>
+    <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; color: #333; }
+    h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+
+    .stats-box { background: #f8f9fa; border-left: 5px solid #3498db; padding: 15px; margin-bottom: 30px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+    th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #3498db; color: white; text-transform: uppercase; font-size: 14px; }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e9ecef; }
+
+    .btn { padding: 8px 15px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block; transition: 0.3s; }
+    .btn-add { background: #27ae60; color: white; margin-bottom: 20px; }
+    .btn-add:hover { background: #219150; }
+    .btn-edit { color: #3498db; margin-right: 10px; }
+    .btn-delete { color: #e74c3c; }
+
+    .pagination { margin-top: 20px; padding: 10px; text-align: center; background: #eee; border-radius: 4px; }
+    .pagination a { color: #3498db; text-decoration: none; padding: 0 10px; font-weight: bold; }
+</style>
+    <tbody>
+        {% for livre in page_obj %}
+        <tr>
+            <td style="padding: 8px;">{{ livre.titre }}</td>
+            <td style="padding: 8px;">{{ livre.auteur }}</td>
+            <td style="padding: 8px;">{{ livre.isbn }}</td>
+            <td style="padding: 8px;">
+                <a href="{% url 'modifier_livre' livre.id %}" style="color: blue;">Modifier</a> |
+                <a href="{% url 'supprimer_livre' livre.id %}" style="color: red;">Supprimer</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" style="padding: 8px; text-align: center;">Aucun livre trouvé.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 20px;">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; début</a>
+        <a href="?page={{ page_obj.previous_page_number }}">précédent</a>
+    {% endif %}
+
+    <span style="font-weight: bold; margin: 0 15px;">
+        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">suivant</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">fin &raquo;</a>
+    {% endif %}
+</div>
